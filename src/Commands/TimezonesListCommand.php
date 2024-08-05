@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Soap\TimezonesList\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class TimezonesListCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-timezones-list';
 
     public $description = 'My command';
 
