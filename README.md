@@ -34,7 +34,7 @@ return [
 ```
 use Soap\TimezonesList\Facades\TimezonesList;
 // 
-$groupedTimezones = Timezones::toArray(grouped: true);
+$groupedTimezones = TimezonesList::toArray(grouped: true);
 ```
 
 ### All timezones
@@ -42,7 +42,7 @@ $groupedTimezones = Timezones::toArray(grouped: true);
 ```
 use Soap\TimezonesList\Facades\TimezonesList;
 // 
-$timezones = Timezones::toArray();
+$timezones = TimezonesList::toArray();
 ```
 
 ### Exclude continents
@@ -50,7 +50,7 @@ $timezones = Timezones::toArray();
 ```
 use Soap\TimezonesList\Facades\TimezonesList;
 // 
-$timezones = Timezones::excludeContinents(['Africa', 'America'])
+$timezones = TimezonesList::excludeContinents(['Africa', 'America'])
     ->toArray();
 ```
 
@@ -59,7 +59,7 @@ $timezones = Timezones::excludeContinents(['Africa', 'America'])
 ```
 $timezones = TimezonesList::showOffset()->toArray();
 // or
-$timezones = Timezones::showOffset(showOffset: false)->toArray();
+$timezones = TimezonesList::showOffset(showOffset: false)->toArray();
 ```
 
 ### Include general timezones
