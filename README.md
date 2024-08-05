@@ -5,15 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/soap/laravel-timezones-list/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/soap/laravel-timezones-list/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/soap/laravel-timezones-list.svg?style=flat-square)](https://packagist.org/packages/soap/laravel-timezones-list)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-timezones-list.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-timezones-list)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Timezones Helper for Laravel application. It may be used to create Select List input options. This package is based on [baspa/laravel-timezones](https://github.com/Baspa/laravel-timezones). I modified the package to use with [WhiteCute 's laravel-timezones](https://github.com/whitecube/laravel-timezones) which support datetime casting into user timezone.
 
 ## Installation
 
@@ -21,13 +13,6 @@ You can install the package via composer:
 
 ```bash
 composer require soap/laravel-timezones-list
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-timezones-list-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:
@@ -43,17 +28,45 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
+## Usage
+### Timezones grouped by continent
 
-```bash
-php artisan vendor:publish --tag="laravel-timezones-list-views"
+```
+use Soap\TimezonesList\Facades\TimezonesList;
+// 
+$groupedTimezones = Timezones::toArray(grouped: true);
 ```
 
-## Usage
+### All timezones
 
-```php
-$timezonesList = new Soap\TimezonesList();
-echo $timezonesList->echoPhrase('Hello, Soap!');
+```
+use Soap\TimezonesList\Facades\TimezonesList;
+// 
+$timezones = Timezones::toArray();
+```
+
+### Exclude continents
+
+```
+use Soap\TimezonesList\Facades\TimezonesList;
+// 
+$timezones = Timezones::excludeContinents(['Africa', 'America'])
+    ->toArray();
+```
+
+### Show offset
+
+```
+$timezones = TimezonesList::showOffset()->toArray();
+// or
+$timezones = Timezones::showOffset(showOffset: false)->toArray();
+```
+
+### Include general timezones
+
+To include general timezones like GMT or UTC use the includeGeneral method.
+```
+$timezones = TimezonesList::includeGeneral()->toArray();
 ```
 
 ## Testing
