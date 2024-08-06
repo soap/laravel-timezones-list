@@ -25,8 +25,11 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'offset_prefix' => 'UTC',
+    'offset_whitespace' => false,
 ];
 ```
+You can set default options for the package in the configuration file. However, you can override them using code.
 
 ## Usage
 ### Timezones grouped by continent
