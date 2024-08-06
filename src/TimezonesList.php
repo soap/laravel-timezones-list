@@ -28,11 +28,21 @@ class TimezonesList
     /** @var bool */
     protected $showOffset = true;
 
+    /** @var bool */
+    protected $offsetWhiteSpace = true;
+
     /** @var string */
     protected $offsetPrefix = 'GMT/UTC';
 
     /** @var bool */
     protected $includeGeneralTimezones = false;
+
+    public function __construct()
+    {
+        $this->offsetPrefix = config('timezones-list.offset_prefix', $this->offsetPrefix);
+        $this->offsetWhiteSpace = config('timezones-list.offset_whitespace', $this->offsetWhiteSpace);
+        $this->includeGeneralTimezones = config('timezones-list.include_general_timezones', $this->includeGeneralTimezones);
+    }
 
     public function includeGeneral(bool $include = true): self
     {
@@ -41,7 +51,7 @@ class TimezonesList
         return $this;
     }
 
-    public function toArray(bool $grouped = false, bool $htmlencode = true): array
+    public function toArray(bool $grouped = false, bool $htmlencode = false): array
     {
         if ($grouped) {
             return $this->toArrayGrouped($htmlencode);
@@ -50,7 +60,7 @@ class TimezonesList
         return $this->toArrayUngrouped($htmlencode);
     }
 
-    private function toArrayGrouped(bool $htmlencode = true): array
+    private function toArrayGrouped(bool $htmlencode = false): array
     {
         $list = [];
 
@@ -74,7 +84,7 @@ class TimezonesList
         return $list;
     }
 
-    private function toArrayUngrouped(bool $htmlencode = true): array
+    private function toArrayUngrouped(bool $htmlencode = false): array
     {
         $list = [];
 
@@ -115,6 +125,11 @@ class TimezonesList
         return $this;
     }
 
+    public function noOfffset(): self
+    {
+        return $this->showOffset(false);
+    }
+
     protected function loadContinents(): array
     {
         return $this->continents;
@@ -145,13 +160,20 @@ class TimezonesList
     protected function formatOffset(string $offset, bool $htmlencode = true): string
     {
         $search = ['-', '+'];
-        $replace = $htmlencode ? [' '.HtmlEntity::MINUS->value.' ', ' '.HtmlEntity::PLUS->value.' '] : [' - ', ' + '];
+        $replace = $htmlencode ? [
+            $this->getOffsetWhitespace(HtmlEntity::MINUS->value),
+            $this->getOffsetWhitespace(HtmlEntity::PLUS->value)] : [$this->getOffsetWhitespace('-'), $this->getOffsetWhiteSpace('+')];
 
         return str_replace(
             search: $search,
             replace: $replace,
             subject: $offset
         );
+    }
+
+    protected function getOffsetWhitespace(string $value): string
+    {
+        return $this->offsetWhiteSpace ? ' '.$value.' ' : $value;
     }
 
     protected function normalizeTimezone(string $timezone): string
@@ -178,6 +200,11 @@ class TimezonesList
     {
         $time = new DateTime('', new DateTimeZone($timezone));
 
-        return $time->format('P');
+        return $time->format('P'); // example +02:00
+    }
+
+    protected function getAllTimezones(): array
+    {
+        return DateTimeZone::listIdentifiers(DateTimeZone::ALL);
     }
 }

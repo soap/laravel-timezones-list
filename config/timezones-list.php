@@ -1,6 +1,6 @@
 <?php
 
-// config for Soap/TimezonesList
 return [
-
+    'offset_prefix' => 'UTC',
+    'offset_whitespace' => false,
 ];
